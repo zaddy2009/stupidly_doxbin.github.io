@@ -10,53 +10,31 @@ html,body{
     margin:0;
     height:100%;
     background:#000;
-    color:#00ff66;
-    overflow:hidden;
+    color:#fff;
+    overflow:auto;
     font-family:Consolas,monospace;
 }
 
-canvas{
-    position:fixed;
-    inset:0;
-    z-index:0;
-}
-
-.scanlines{
-    position:fixed;
-    inset:0;
-    pointer-events:none;
-    background:
-        repeating-linear-gradient(
-            transparent 0px,
-            transparent 2px,
-            rgba(255,255,255,.03) 3px
-        );
-    animation:flicker .15s infinite;
-    z-index:2;
-}
-
-@keyframes flicker{
-    50%{opacity:.95;}
-}
-
 .content{
-    position:relative;
-    z-index:3;
     width:min(1000px,90%);
     margin:40px auto;
 }
 
 .box{
-    border:1px solid #00ff66;
-    background:rgba(0,0,0,.75);
+    border:1px solid #fff;
+    background:rgba(0,0,0,.85);
     padding:20px;
-    box-shadow:0 0 20px #00ff66;
+    box-shadow:0 0 20px #fff;
     margin-bottom:20px;
 }
 
-h1{
+h1,h2{
     text-align:center;
-    text-shadow:0 0 15px #00ff66;
+    text-shadow:0 0 15px #fff;
+}
+
+p,li,b,small{
+    text-shadow:0 0 8px #fff;
 }
 
 .cursor{
@@ -68,33 +46,36 @@ h1{
 }
 
 .case{
-    border-top:1px solid #00aa44;
+    border-top:1px solid #fff;
     margin-top:15px;
     padding-top:15px;
 }
 
 small{
-    color:#66ff99;
+    color:#ddd;
+}
+
+hr{
+    border:0;
+    border-top:1px solid white;
+    box-shadow:0 0 10px white;
 }
 </style>
 </head>
 
 <body>
 
-<canvas id="matrix"></canvas>
-
-<div class="scanlines"></div>
-
 <div class="content">
 
 <div class="box">
+
 <h1>Stupidly's doxbin</h1>
 
 <p id="boot"></p>
 
 <p>
 Status:
-<span style="color:#8cff8c;">ONLINE</span>
+<span>ONLINE</span>
 <span class="cursor">█</span>
 </p>
 
@@ -104,7 +85,9 @@ Status:
 <strong>NOTICE:</strong><br>
 I am a super evil hacker and i will steal ALL ur info pal.
 </p>
+
 </div>
+
 
 <div class="box">
 
@@ -120,6 +103,7 @@ Charges:
 </ul>
 </div>
 
+
 <div class="case">
 <b>Mr.ANY</b><br>
 Charges:
@@ -130,6 +114,7 @@ Charges:
 </ul>
 </div>
 
+
 <div class="case">
 <b>PizzaBandit42</b><br>
 Charges:
@@ -139,6 +124,7 @@ Charges:
 <li>Asked for ranch with sushi.</li>
 </ul>
 </div>
+
 
 <div class="case">
 <b>DuckOverlord</b><br>
@@ -152,6 +138,7 @@ Charges:
 
 </div>
 
+
 <div class="box">
 <small>
 FakeFiles Terminal v1.0 • Parody Website
@@ -160,10 +147,10 @@ FakeFiles Terminal v1.0 • Parody Website
 
 </div>
 
+
 <script>
 const bootText=[
 "Initializing terminal...",
-"Connecting to definitely-not-real servers...",
 "Loading fictional database...",
 "Compiling nonsense...",
 "Access Granted."
@@ -173,53 +160,13 @@ let i=0;
 
 function typeLine(){
     if(i<bootText.length){
-        boot.innerHTML+=bootText[i]+"<br>";
+        document.getElementById("boot").innerHTML+=bootText[i]+"<br>";
         i++;
         setTimeout(typeLine,500);
     }
 }
 
 typeLine();
-
-// Matrix rain
-const canvas=document.getElementById("matrix");
-const ctx=canvas.getContext("2d");
-
-function resize(){
-    canvas.width=innerWidth;
-    canvas.height=innerHeight;
-}
-resize();
-addEventListener("resize",resize);
-
-const chars="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#$%&*";
-const size=18;
-const columns=Math.floor(innerWidth/size);
-const drops=[];
-
-for(let i=0;i<columns;i++) drops[i]=1;
-
-function draw(){
-    ctx.fillStyle="rgba(0,0,0,.08)";
-    ctx.fillRect(0,0,canvas.width,canvas.height);
-
-    ctx.fillStyle="#00ff66";
-    ctx.font=size+"px monospace";
-
-    for(let i=0;i<drops.length;i++){
-
-        const text=chars[Math.floor(Math.random()*chars.length)];
-
-        ctx.fillText(text,i*size,drops[i]*size);
-
-        if(drops[i]*size>canvas.height && Math.random()>0.98)
-            drops[i]=0;
-
-        drops[i]++;
-    }
-}
-
-setInterval(draw,40);
 </script>
 
 </body>
