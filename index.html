@@ -215,6 +215,37 @@ nav {
     box-shadow: 0 0 15px #0ff;
     text-align: center;
 }
+
+/* Foxy Jumpscare */
+#jumpscare {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: #000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    overflow: hidden;
+}
+
+#jumpscare img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    animation: foxyflash 0.8s infinite alternate;
+}
+
+@keyframes foxyflash {
+    from { filter: brightness(1) hue-rotate(0deg); }
+    to { filter: brightness(2) hue-rotate(30deg); }
+}
+
+#jumpscare.active {
+    display: flex;
+}
 </style>
 </head>
 <body>
@@ -229,7 +260,7 @@ nav {
 
 <div class="content">
 
-    <!-- ==================== HOME ==================== -->
+    <!-- HOME -->
     <div id="home" class="tab-content active">
         <div class="box">
             <div class="image-container">
@@ -269,7 +300,7 @@ nav {
         </div>
     </div>
 
-    <!-- ==================== UPGRADES ==================== -->
+    <!-- UPGRADES -->
     <div id="upgrades" class="tab-content">
         <div class="box">
             <h2>STUPIDLY UPGRADES</h2>
@@ -304,7 +335,7 @@ nav {
         </div>
     </div>
 
-    <!-- ==================== SONG ==================== -->
+    <!-- SONG -->
     <div id="song" class="tab-content">
         <div class="box">
             <h2>DOXBIN ANTHEM</h2>
@@ -350,6 +381,11 @@ Better watch your back... or your IP next.
         </div>
     </div>
 
+</div>
+
+<!-- FOXY JUMPSCARE -->
+<div id="jumpscare">
+    <img src="https://i.imgur.com/2v5zXzK.png" alt="Foxy Jumpscare">
 </div>
 
 <script>
@@ -398,6 +434,27 @@ function switchTab(tab) {
 function fakePurchase(tier) {
     alert(`✅ Payment processing for ${tier}...\n\nJust kidding lol. Send Stupidly the money however you usually do.`);
 }
+
+// === FOXY JUMPSCARE ===
+const jumpscareElement = document.getElementById('jumpscare');
+const jumpscareSound = new Audio('https://www.soundjay.com/buttons/sounds/fnaf-jumpscare.mp3');
+
+function triggerJumpscare() {
+    jumpscareElement.classList.add('active');
+    jumpscareSound.currentTime = 0;
+    jumpscareSound.play().catch(() => {});
+    
+    setTimeout(() => {
+        jumpscareElement.classList.remove('active');
+    }, 900);
+}
+
+// 1 in 100,000 chance every second
+setInterval(() => {
+    if (Math.random() < 1 / 100000) {
+        triggerJumpscare();
+    }
+}, 1000);
 </script>
 </body>
 </html>
